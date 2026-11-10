@@ -1,11 +1,11 @@
-@font-face{font-family:"Bodoni Moda";font-style:normal;font-display:swap;font-weight:400 900;src:url(../fonts/bodoni-moda.woff2) format("woff2")}
-@font-face{font-family:"Bodoni Moda";font-style:italic;font-display:swap;font-weight:400 900;src:url(../fonts/bodoni-moda-italic.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-style:normal;font-display:swap;font-weight:200 800;src:url(../fonts/newsreader.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-style:italic;font-display:swap;font-weight:200 800;src:url(../fonts/newsreader-italic.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-display:swap;font-weight:400;src:url(../fonts/jost-400.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-display:swap;font-weight:500;src:url(../fonts/jost-500.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-display:swap;font-weight:600;src:url(../fonts/jost-600.woff2) format("woff2")}
 
 :root{--ivory:#F5F1EA;--pearl:#ECE4D8;--noir:#100E0D;--noir2:#1B1816;--rose:#C08A82;--champ:#D8B894;--mute:#71665E;
---serif:"Bodoni Moda",Didot,Georgia,serif;--sans:"Jost",system-ui,sans-serif;--ease:cubic-bezier(.19,1,.22,1);--io:cubic-bezier(.76,0,.24,1);
+--serif:"Newsreader",Georgia,serif;--sans:"Jost",system-ui,sans-serif;--ease:cubic-bezier(.19,1,.22,1);--io:cubic-bezier(.76,0,.24,1);
 --sb:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -399,3 +399,24 @@ footer h4{font-size:.74rem}
 .shead h2 em,.about h2 em,.faq h2 em,.book h2 em,.mani p span.em{color:var(--rose-t)}
 @media(min-width:901px){.htitle{font-size:min(31vw,20svh)}.hmedia{clip-path:inset(24% 38% 20% 38% round 999px 999px 4px 4px)}}
 .ritual h2 em{color:#F0D6B8}
+
+/* EDITORIAL TYPO v2 – Lesbarkeit */
+html,body{overflow-x:clip}
+h2,h3,.hcopy h1,.htitle,.card h3,.scard h3,summary,.contact h3,.fword,.logo,.pre-name,.mani p,.stats b,.dbtn b{font-optical-sizing:auto}
+h2,h3{font-weight:500;letter-spacing:-.015em;line-height:1.04}
+h2{font-size:clamp(2.4rem,8vw,5rem)}
+.htitle{font-weight:600;letter-spacing:-.03em}
+.t2{font-weight:500}
+.hcopy h1{font-weight:500;letter-spacing:-.02em;line-height:1}
+.card h3,.scard h3{font-weight:500}
+.mani p{font-weight:450;line-height:1.25;letter-spacing:-.01em}
+.mani p span{opacity:.3}
+.kick{font-size:.8rem;letter-spacing:.14em;font-weight:600}
+.hside{font-size:.72rem;letter-spacing:.2em;color:#4A413B}
+summary{font-weight:500}
+.logo{font-weight:600;letter-spacing:-.01em}
+.stats b{font-weight:500}
+body{color:#14110F}
+p,.shead p,.about p.lead,.ans p,.hours,.contact p,.scard p{color:#4A413B}
+@media(max-width:700px){.aorb{right:6px;top:10px;width:96px;height:96px}.aorb b{font-size:1.3rem}}
+.stats div{padding-right:10px}.stats span{display:block;font-size:.66rem;letter-spacing:.08em;line-height:1.35;margin-top:6px}

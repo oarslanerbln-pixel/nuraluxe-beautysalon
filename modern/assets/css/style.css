@@ -346,3 +346,5 @@ footer a:hover{color:var(--c)}
 .sh-next:disabled{opacity:.3;pointer-events:none}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.split .w>span,.hbig .ln>span{transform:none}.amedia{clip-path:none}}
+
+html,body{overflow-x:clip}
