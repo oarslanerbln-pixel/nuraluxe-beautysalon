@@ -25,7 +25,7 @@ const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>
 const pad=n=>String(n).padStart(2,'0'),eur=n=>n===0?'kostenlos':'ab '+n+' €';
 const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 const MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],MONL=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
-$('#tTel').textContent=CONFIG.phone;$('#tMail').textContent=CONFIG.email;$('#yr').textContent=new Date().getFullYear();
+$('#tTel').textContent=CONFIG.phone;$('#tTel').href='tel:'+CONFIG.phone.replace(/\s/g,'');$('#tMail').textContent=CONFIG.email;$('#tMail').href='mailto:'+CONFIG.email;$('#waC').href='https://wa.me/'+CONFIG.whatsapp;$('#yr').textContent=new Date().getFullYear();
 $('#callBtn').href='tel:'+CONFIG.phone.replace(/\s/g,'');
 
 /* Hero title letters */

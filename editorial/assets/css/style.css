@@ -420,3 +420,14 @@ body{color:#14110F}
 p,.shead p,.about p.lead,.ans p,.hours,.contact p,.scard p{color:#4A413B}
 @media(max-width:700px){.aorb{right:6px;top:10px;width:96px;height:96px}.aorb b{font-size:1.3rem}}
 .stats div{padding-right:10px}.stats span{display:block;font-size:.66rem;letter-spacing:.08em;line-height:1.35;margin-top:6px}
+/* LEGAL PAGES + LAUNCH ADDITIONS */
+.skip{position:absolute;left:-999px;top:8px;z-index:999;background:var(--noir);color:var(--ivory);padding:10px 16px}.skip:focus{left:8px}
+.lgp{overflow-x:clip}.lghdr{padding:20px 0;border-bottom:1px solid rgba(16,14,13,.08)}.lghdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lgmain{max-width:760px;padding:clamp(48px,9vw,96px) 0 80px}.lgmain h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,9vw,4.6rem);line-height:1;letter-spacing:-.02em;margin:16px 0 40px}
+.lgmain h1 em,.lgmain h2 em{font-style:italic}.lgmain h2{font-size:clamp(1.35rem,4.5vw,1.7rem);margin:42px 0 12px;line-height:1.15}
+.lgmain p{margin:0 0 14px;color:#3A332E;font-weight:400;overflow-wrap:anywhere}.lgmain b{font-weight:600;color:var(--noir)}.lgstand{color:var(--mute);font-size:.85rem}
+.lgback{margin-top:48px}.lgp footer{padding:28px 0 calc(28px + var(--sb))}.lgp .legal{margin-top:0}
+.tbd{background:#F3E3C7;padding:0 .3em;border-radius:2px}
+.fine{margin-top:18px;font-size:.78rem;color:var(--mute);letter-spacing:.02em;max-width:62ch;margin-inline:auto;line-height:1.5}
+.svc .fine{text-align:center;padding-inline:5vw}
+@media (max-width:520px){.lghdr .btn{padding:.9em 1.2em;font-size:.7rem}}
