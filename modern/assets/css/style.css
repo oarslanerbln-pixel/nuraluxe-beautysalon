@@ -348,3 +348,22 @@ footer a:hover{color:var(--c)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.split .w>span,.hbig .ln>span{transform:none}.amedia{clip-path:none}}
 
 html,body{overflow-x:clip}
+/* LAUNCH: Aktion, Legal, Fine print */
+.skip{position:absolute;left:-999px;top:8px;z-index:999;background:var(--ink);color:var(--w);padding:10px 16px}.skip:focus{left:8px}
+.fine{margin-top:18px;font-size:.8rem;line-height:1.5;color:var(--g);max-width:60ch}
+.book .fine,footer .fine{color:#9A9A9A}
+.promo{padding:clamp(70px,11vw,130px) 0;background:var(--s);border-bottom:1px solid var(--l)}
+.pgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px 6vw;align-items:end}
+.promo h2{margin-top:18px}
+.plist{border-top:1px solid var(--ink);margin-bottom:28px}
+.plist li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--l);font-size:1.08rem;font-weight:500}
+.plist b{font-weight:800;font-stretch:110%;white-space:nowrap;font-size:1.25rem}
+.plist s,.card s,.pr s{color:var(--g);font-weight:400;margin-right:6px;font-size:.85em}
+@media (max-width:860px){.pgrid{grid-template-columns:1fr}.plist li{font-size:1rem}}
+.lgp{overflow-x:clip}.lghdr{padding:18px 0;border-bottom:1px solid var(--l)}.lghdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lgmain{max-width:780px;padding:clamp(48px,9vw,96px) 0 80px}.lgmain .kick{font-size:.86rem;font-weight:500;color:var(--c)}
+.lgmain h1{font-weight:800;font-stretch:108%;font-size:clamp(2.4rem,9vw,4.4rem);line-height:1;letter-spacing:-.02em;margin:14px 0 40px}.lgmain h1 em{font-style:normal;color:var(--c)}
+.lgmain h2{font-size:clamp(1.15rem,4vw,1.4rem);font-stretch:100%;font-weight:700;margin:40px 0 10px;line-height:1.2;letter-spacing:0}
+.lgmain p{margin:0 0 14px;color:#333;overflow-wrap:anywhere}.lgmain p a{text-decoration:underline}.lgmain b{font-weight:700;color:var(--ink)}.lgstand{color:var(--g);font-size:.88rem}
+.lgback{margin-top:48px}.lgp footer{padding:28px 0 calc(28px + var(--sb))}.lgp .legal{margin-top:0;border:0;padding:0}
+@media (max-width:520px){.lghdr .btn{padding:.9em 1.2em;font-size:.8rem}}

@@ -1,16 +1,18 @@
 /* ===== KONFIGURATION ===== */
 const CONFIG={
-  phone:"+49 30 000 000 00", whatsapp:"4930000000000", email:"info@nuraluxe.de",
+  phone:"+49 177 6069291", whatsapp:"491776069291", email:"nuraluxa@gmail.com",
   webhook:"",            // Make / n8n / Supabase-URL (nur https) → Anfragen landen dort
   turnstileSiteKey:"",   // optional: Cloudflare Turnstile (Spam-Schutz, DSGVO-freundlich)
   minFillSeconds:4,      // Bots füllen schneller aus → werden still verworfen
   cooldownSeconds:60,    // max. eine Anfrage pro Minute und Browser
-  demo:true,             // Vorschau: Anfragen werden NICHT gesendet
+  demo:false,            // true = Vorschau, Anfragen werden NICHT gesendet
   daysAhead:45, leadHours:2, step:30,
-  hours:{0:null,1:[10,19],2:[10,19],3:[10,19],4:[10,19],5:[10,19],6:[10,17]},
+  hours:{0:null,1:[10,18],2:[10,18],3:[10,18],4:[10,18],5:[10,18],6:[10,18]},
+  promoEnd:"2027-01-01T00:00:00+01:00", // Aktion endet automatisch
   closed:[]              // ["2026-12-24", …]
 };
 const SERVICES=[
+ {cat:"Aktion",img:"img/svc-gesicht.webp",tag:"Bis 31.12.",items:[["Aquafacial + Microneedling",75,99,129],["Aquafacial + Mikrodermabrasion",75,99,129]]},
  {cat:"Gesicht",img:"img/svc-gesicht.webp",tag:"Bestseller",items:[["Hydrafacial",60,89],["Deep Cleansing Facial",60,69],["Anti-Aging Facial",75,99]]},
  {cat:"Lashes & Brows",img:"img/svc-lashes.webp",tag:"Natürlich",items:[["Lash Lifting",45,49],["Brow Lamination",45,45],["Lash & Brow Kombi",75,85]]},
  {cat:"Nails",img:"img/svc-nails.webp",tag:"Gepflegt",items:[["Maniküre",45,35],["Gel-Maniküre",60,45],["Pediküre",60,45]]},
@@ -19,13 +21,14 @@ const SERVICES=[
 ];
 /* ========================= */
 (()=>{
+if(Date.now()>=Date.parse(CONFIG.promoEnd)){SERVICES.splice(SERVICES.findIndex(s=>s.cat==='Aktion'),1);const pe=document.getElementById('promo');pe&&pe.remove()}
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>1-Math.pow(1-t,3);
-const pad=n=>String(n).padStart(2,'0'),eur=n=>n===0?'kostenlos':'ab '+n+' €';
+const pad=n=>String(n).padStart(2,'0'),eur=(n,o)=>n===0?'kostenlos':o?n+' € statt '+o+' €':'ab '+n+' €';
 const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 const MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],MONL=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
-$('#tTel').textContent=CONFIG.phone;$('#tMail').textContent=CONFIG.email;$('#yr').textContent=new Date().getFullYear();
+$('#tTel').textContent=CONFIG.phone;$('#tTel').href='tel:'+CONFIG.phone.replace(/\s/g,'');$('#tMail').textContent=CONFIG.email;$('#tMail').href='mailto:'+CONFIG.email;$('#waC').href='https://wa.me/'+CONFIG.whatsapp;$('#yr').textContent=new Date().getFullYear();
 $('#callBtn').href='tel:'+CONFIG.phone.replace(/\s/g,'');
 
 /* Preloader */
@@ -65,7 +68,7 @@ let mx=0,vel=0,lastY=scrollY;
 const cardsEl=$('#cards');
 SERVICES.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.cat=s.cat;a.tabIndex=0;
  const min=Math.min(...s.items.map(x=>x[2]));
- a.innerHTML=`<div class="cimg"><i style="background-image:url(${s.img})"></i></div><div class="cb"><div class="ctop"><span>(0${i+1})</span><b>${min?'ab '+min+' €':'kostenlos'}</b></div><h3>${s.cat.replace('&','&amp;')}</h3><ul>${s.items.map(x=>`<li><span>${x[0]}</span><span>${x[1]} Min</span></li>`).join('')}</ul></div><div class="go"><span>Termin buchen</span><i>→</i></div>`;
+ a.innerHTML=`<div class="cimg"><i style="background-image:url(${s.img})"></i></div><div class="cb"><div class="ctop"><span>(0${i+1})</span><b>${s.items[0][3]?'<s>'+s.items[0][3]+' €</s> '+min+' €':min?'ab '+min+' €':'kostenlos'}</b></div><h3>${s.cat.replace('&','&amp;')}</h3><ul>${s.items.map(x=>`<li><span>${x[0]}</span><span>${x[1]} Min</span></li>`).join('')}</ul></div><div class="go"><span>Termin buchen</span><i>→</i></div>`;
  a.addEventListener('click',()=>{if(!moved)openSheet(s.cat)});a.addEventListener('keydown',e=>{if(e.key==='Enter')openSheet(s.cat)});
  cardsEl.appendChild(a)});
 const cards=$$('.card');
@@ -133,10 +136,10 @@ hd.addEventListener('touchend',()=>{sheet.style.transition='';if(dy>110)closeShe
 
 function renderChips(){const ch=$('#chips');ch.innerHTML='';SERVICES.forEach(s=>{const b=document.createElement('button');b.textContent=s.cat;b.classList.toggle('on',s.cat===B.cat);b.onclick=()=>{B.cat=s.cat;buzz();renderChips()};ch.appendChild(b)});
  const s=SERVICES.find(x=>x.cat===B.cat),tl=$('#tlist');tl.innerHTML='';
- s.items.forEach(([n,d,p],i)=>{const b=document.createElement('button');b.className='treat'+(B.t&&B.t.n===n?' on':'');b.style.animationDelay=i*70+'ms';
-  b.innerHTML=`<span class="th" style="background-image:url(${s.img})"></span><span><span class="nm">${n}</span><br><span class="mt">${d} Min · ${s.cat}</span></span><span style="text-align:right"><span class="pr">${eur(p)}</span><span class="rad"></span></span>`;
+ s.items.forEach(([n,d,p,o],i)=>{const b=document.createElement('button');b.className='treat'+(B.t&&B.t.n===n?' on':'');b.style.animationDelay=i*70+'ms';
+  b.innerHTML=`<span class="th" style="background-image:url(${s.img})"></span><span><span class="nm">${n}</span><br><span class="mt">${d} Min · ${s.cat}</span></span><span style="text-align:right"><span class="pr">${o?`<s>${o} €</s> ${p} €`:eur(p)}</span><span class="rad"></span></span>`;
   b.onclick=()=>{pick(s,i);buzz();renderChips();setTimeout(()=>go(1),280)};tl.appendChild(b)})}
-function pick(s,i){const[n,d,p]=s.items[i];B.t={n,d,p,cat:s.cat};B.time=null;upd()}
+function pick(s,i){const[n,d,p,o]=s.items[i];B.t={n,d,p,o,cat:s.cat};B.time=null;upd()}
 
 const today=new Date();today.setHours(0,0,0,0);
 const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -162,7 +165,7 @@ function renderSlots(){const w=$('#slotWrap');w.innerHTML='';if(!B.date)return;c
 const LBL=['Weiter','Weiter','Zur Übersicht','Termin anfragen'];
 function upd(){const n=$('#next');n.disabled=(B.s===0&&!B.t)||(B.s===1&&!B.time);n.innerHTML=LBL[B.s]+' <span class="ar">→</span>';
  const s=$('#sum');if(!B.t){s.innerHTML='<b>Behandlung wählen</b><span>4 Schritte zum Termin</span>';return}
- s.innerHTML=`<b>${B.t.n}</b><span>${B.date&&B.time?fmt(B.date)+' · '+B.time:B.t.d+' Min'} · ${eur(B.t.p)}</span>`}
+ s.innerHTML=`<b>${B.t.n}</b><span>${B.date&&B.time?fmt(B.date)+' · '+B.time:B.t.d+' Min'} · ${eur(B.t.p,B.t.o)}</span>`}
 function go(n,silent){const back=n<B.s;B.s=n;$$('.pane').forEach(p=>{const on=+p.dataset.p===n;p.classList.toggle('on',on);p.classList.toggle('back',on&&back)});
  $('#prog').style.transform=`scaleX(${Math.min(n+1,4)/4})`;$('#stepL').textContent=n<4?`Schritt ${n+1} / 4`:'Fertig';
  $('#shFoot').style.display=n===4?'none':'';$('#back').style.visibility=n===0?'hidden':'visible';$('#shBody').scrollTop=0;
@@ -176,7 +179,7 @@ function validate(){const name=clean($('#fName').value,80),tel=clean($('#fTel').
  else if(mail&&!/^\S+@\S+\.\S+$/.test(mail)){e='Bitte prüfen Sie Ihre E-Mail-Adresse.';$('#fMail').parentNode.classList.add('bad')}
  else if(!$('#fOk').checked)e='Bitte bestätigen Sie die Einwilligung.';
  $('#err').textContent=e;if(!e){B.c={name,tel,mail,msg:clean($('#fMsg').value,500),neu:$('#fNew').checked};go(3)}}
-function recap(sel){const r=$(sel);r.innerHTML='';const rows=[['Behandlung',B.t.n],['Termin',fmt(B.date)+', '+B.time+' Uhr'],['Dauer',B.t.d+' Minuten'],['Preis',eur(B.t.p)+(B.c.neu&&B.t.p?' · −15 %':'')],['Name',B.c.name],['Telefon',B.c.tel]];
+function recap(sel){const r=$(sel);r.innerHTML='';const rows=[['Behandlung',B.t.n],['Termin',fmt(B.date)+', '+B.time+' Uhr'],['Dauer',B.t.d+' Minuten'],['Preis',eur(B.t.p,B.t.o)+(B.c.neu&&B.t.p&&!B.t.o?' · −15 %':'')],['Name',B.c.name],['Telefon',B.c.tel]];
  if(B.c.mail)rows.push(['E-Mail',B.c.mail]);if(B.c.msg)rows.push(['Hinweis',B.c.msg]);rows.forEach(([k,v])=>{const a=document.createElement('span');a.textContent=k;const b=document.createElement('span');b.textContent=v;r.append(a,b)})}
 let tsLoaded=false,tsToken='';
 function captcha(){const k=CONFIG.turnstileSiteKey;if(!k||tsLoaded)return;tsLoaded=true;window.nlTs=()=>window.turnstile.render('#captcha',{sitekey:k,theme:'light',language:'de',callback:t=>tsToken=t});
@@ -213,5 +216,5 @@ $('#mapLoad').addEventListener('click',e=>{const m=$('#map');if(/claude/i.test(l
 (function(){for(let i=0;i<14;i++){const d=new Date(today);d.setDate(d.getDate()+i);const s=slotsFor(d,45);if(s.length){const txt=`${i===0?'Heute':i===1?'Morgen':fmt(d)}, ${hhmm(s[0])} Uhr`;$('#nextSlot').textContent=txt;$('#heroSlot').textContent='Nächster Termin: '+txt;break}}
  const n=new Date(),h=CONFIG.hours[n.getDay()],m=n.getHours()+n.getMinutes()/60,open=h&&m>=h[0]&&m<h[1];
  const o=$('#openN');o.textContent=open?'Jetzt geöffnet · bis '+h[1]+':00':'Aktuell geschlossen';o.style.setProperty('--cc',open?'#1F9D55':'#FF4F2E');
- $$('#hours [data-d]').forEach(s=>{const d=+s.dataset.d;if((d===1&&n.getDay()>=1&&n.getDay()<=5)||d===n.getDay())s.classList.add('now')})})();
+ $$('#hours [data-d]').forEach(s=>{const d=+s.dataset.d;if((d===1&&n.getDay()>=1&&n.getDay()<=6)||d===n.getDay())s.classList.add('now')})})();
 })();

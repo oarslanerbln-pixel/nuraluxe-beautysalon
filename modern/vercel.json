@@ -43,5 +43,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/termin",
+      "destination": "/#buchen",
+      "permanent": false
+    }
   ]
 }
