@@ -1,6 +1,7 @@
 /* ===== KONFIGURATION ===== */
 const CONFIG={
-  phone:"+49 177 6069291", whatsapp:"491776069291", email:"nuraluxa@gmail.com",
+  phone:"+49 177 6069291", whatsapp:"491776069291", email:"info@nuraluxe.de",
+  instagram:"https://www.instagram.com/nura_luxe_beauty",
   webhook:"",            // Make / n8n / Supabase-URL (nur https) → Anfragen landen dort
   turnstileSiteKey:"",   // optional: Cloudflare Turnstile (Spam-Schutz, DSGVO-freundlich)
   minFillSeconds:4,      // Bots füllen schneller aus → werden still verworfen
@@ -12,12 +13,12 @@ const CONFIG={
   closed:[]              // ["2026-12-24", …]
 };
 const SERVICES=[
- {cat:"Aktion",img:"img/svc-gesicht.webp",tag:"Bis 31.12.",items:[["Aquafacial + Microneedling",75,99,129],["Aquafacial + Mikrodermabrasion",75,99,129]]},
- {cat:"Gesicht",img:"img/svc-gesicht.webp",tag:"Bestseller",items:[["Hydrafacial",60,89],["Deep Cleansing Facial",60,69],["Anti-Aging Facial",75,99]]},
- {cat:"Lashes & Brows",img:"img/svc-lashes.webp",tag:"Natürlich",items:[["Lash Lifting",45,49],["Brow Lamination",45,45],["Lash & Brow Kombi",75,85]]},
- {cat:"Nails",img:"img/svc-nails.webp",tag:"Gepflegt",items:[["Maniküre",45,35],["Gel-Maniküre",60,45],["Pediküre",60,45]]},
- {cat:"Haarentfernung",img:"img/svc-haar.webp",tag:"Dauerhaft",items:[["Laser – Achseln",20,49],["Laser – Beine komplett",60,149],["Waxing – Gesicht",20,25]]},
- {cat:"Beratung",img:"img/about.webp",tag:"Gratis",items:[["Kostenlose Hautanalyse",20,0]]}
+ {cat:"Aktion",img:"img/svc-aktion.webp",tag:"Bis 31.12.",items:[["Aquafacial + Microneedling",75,99,129],["Aquafacial + Mikrodermabrasion",75,99,129]]},
+ {cat:"Gesicht",img:"img/svc-gesicht.webp",tag:"Pflege",items:[["Hydrafacial",60,null],["Deep Cleansing Facial",60,null],["Anti-Aging Facial",75,null]]},
+ {cat:"Lashes & Brows",img:"img/svc-lashes.webp",tag:"Natürlich",items:[["Lash Lifting",45,null],["Brow Lamination",45,null],["Lash & Brow Kombi",75,null]]},
+ {cat:"Nails",img:"img/svc-nails.webp",tag:"Gepflegt",items:[["Maniküre",45,null],["Gel-Maniküre",60,null],["Pediküre",60,null]]},
+ {cat:"Haarentfernung",img:"img/svc-haar.webp",tag:"Glatt",items:[["Laser – Achseln",20,null],["Laser – Beine komplett",60,null],["Waxing – Gesicht",20,null]]},
+ {cat:"Beratung",img:"img/svc-beratung.webp",tag:"Persönlich",items:[["Hautanalyse & Beratung",20,null]]}
 ];
 /* ========================= */
 (()=>{
@@ -25,11 +26,11 @@ if(Date.now()>=Date.parse(CONFIG.promoEnd)){SERVICES.splice(SERVICES.findIndex(s
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>1-Math.pow(1-t,3);
-const pad=n=>String(n).padStart(2,'0'),eur=(n,o)=>n===0?'kostenlos':o?n+' € statt '+o+' €':'ab '+n+' €';
+const pad=n=>String(n).padStart(2,'0'),eur=(n,o)=>n==null?'Preis auf Anfrage':o?n+' € statt '+o+' €':n+' €';
 const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 const MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],MONL=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
 $('#tTel').textContent=CONFIG.phone;$('#tTel').href='tel:'+CONFIG.phone.replace(/\s/g,'');$('#tMail').textContent=CONFIG.email;$('#tMail').href='mailto:'+CONFIG.email;$('#waC').href='https://wa.me/'+CONFIG.whatsapp;$('#yr').textContent=new Date().getFullYear();
-$('#callBtn').href='tel:'+CONFIG.phone.replace(/\s/g,'');
+$('#callBtn').href='tel:'+CONFIG.phone.replace(/\s/g,'');$$('[data-ig]').forEach(a=>a.href=CONFIG.instagram);
 
 /* Preloader */
 const startT=performance.now();let ready=false;
@@ -60,15 +61,14 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
 $$('.rv,.split').forEach(e=>io.observe(e));
 
 /* Marquee */
-const words=['Hydrafacial','Lash Lifting','Brow Lamination','Gel-Maniküre','Laser','Anti-Aging'];
+const words=['Gesicht','Lashes & Brows','Nails','Haarentfernung','Gutscheine','Moabit'];
 const mq=$('#mq1');const h1=words.map(w=>`<span>${w}</span><span class="x">+</span>`).join('');mq.innerHTML=h1+h1+h1;
 let mx=0,vel=0,lastY=scrollY;
 
 /* Service cards */
 const cardsEl=$('#cards');
 SERVICES.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.cat=s.cat;a.tabIndex=0;
- const min=Math.min(...s.items.map(x=>x[2]));
- a.innerHTML=`<div class="cimg"><i style="background-image:url(${s.img})"></i></div><div class="cb"><div class="ctop"><span>(0${i+1})</span><b>${s.items[0][3]?'<s>'+s.items[0][3]+' €</s> '+min+' €':min?'ab '+min+' €':'kostenlos'}</b></div><h3>${s.cat.replace('&','&amp;')}</h3><ul>${s.items.map(x=>`<li><span>${x[0]}</span><span>${x[1]} Min</span></li>`).join('')}</ul></div><div class="go"><span>Termin buchen</span><i>→</i></div>`;
+ a.innerHTML=`<div class="cimg"><i style="background-image:url(${s.img})"></i></div><div class="cb"><div class="ctop"><span>(0${i+1})</span><b>${s.items[0][3]?'<s>'+s.items[0][3]+' €</s> '+s.items[0][2]+' €':'Preis auf Anfrage'}</b></div><h3>${s.cat.replace('&','&amp;')}</h3><ul>${s.items.map(x=>`<li><span>${x[0]}</span></li>`).join('')}</ul></div><div class="go"><span>Termin buchen</span><i>→</i></div>`;
  a.addEventListener('click',()=>{if(!moved)openSheet(s.cat)});a.addEventListener('keydown',e=>{if(e.key==='Enter')openSheet(s.cat)});
  cardsEl.appendChild(a)});
 const cards=$$('.card');
@@ -137,7 +137,7 @@ hd.addEventListener('touchend',()=>{sheet.style.transition='';if(dy>110)closeShe
 function renderChips(){const ch=$('#chips');ch.innerHTML='';SERVICES.forEach(s=>{const b=document.createElement('button');b.textContent=s.cat;b.classList.toggle('on',s.cat===B.cat);b.onclick=()=>{B.cat=s.cat;buzz();renderChips()};ch.appendChild(b)});
  const s=SERVICES.find(x=>x.cat===B.cat),tl=$('#tlist');tl.innerHTML='';
  s.items.forEach(([n,d,p,o],i)=>{const b=document.createElement('button');b.className='treat'+(B.t&&B.t.n===n?' on':'');b.style.animationDelay=i*70+'ms';
-  b.innerHTML=`<span class="th" style="background-image:url(${s.img})"></span><span><span class="nm">${n}</span><br><span class="mt">${d} Min · ${s.cat}</span></span><span style="text-align:right"><span class="pr">${o?`<s>${o} €</s> ${p} €`:eur(p)}</span><span class="rad"></span></span>`;
+  b.innerHTML=`<span class="th" style="background-image:url(${s.img})"></span><span><span class="nm">${n}</span><br><span class="mt">${s.cat}</span></span><span style="text-align:right"><span class="pr">${o?`<s>${o} €</s> ${p} €`:p==null?'auf Anfrage':eur(p)}</span><span class="rad"></span></span>`;
   b.onclick=()=>{pick(s,i);buzz();renderChips();setTimeout(()=>go(1),280)};tl.appendChild(b)})}
 function pick(s,i){const[n,d,p,o]=s.items[i];B.t={n,d,p,o,cat:s.cat};B.time=null;upd()}
 
@@ -165,7 +165,7 @@ function renderSlots(){const w=$('#slotWrap');w.innerHTML='';if(!B.date)return;c
 const LBL=['Weiter','Weiter','Zur Übersicht','Termin anfragen'];
 function upd(){const n=$('#next');n.disabled=(B.s===0&&!B.t)||(B.s===1&&!B.time);n.innerHTML=LBL[B.s]+' <span class="ar">→</span>';
  const s=$('#sum');if(!B.t){s.innerHTML='<b>Behandlung wählen</b><span>4 Schritte zum Termin</span>';return}
- s.innerHTML=`<b>${B.t.n}</b><span>${B.date&&B.time?fmt(B.date)+' · '+B.time:B.t.d+' Min'} · ${eur(B.t.p,B.t.o)}</span>`}
+ s.innerHTML=`<b>${B.t.n}</b><span>${B.date&&B.time?fmt(B.date)+' · '+B.time:B.t.cat} · ${eur(B.t.p,B.t.o)}</span>`}
 function go(n,silent){const back=n<B.s;B.s=n;$$('.pane').forEach(p=>{const on=+p.dataset.p===n;p.classList.toggle('on',on);p.classList.toggle('back',on&&back)});
  $('#prog').style.transform=`scaleX(${Math.min(n+1,4)/4})`;$('#stepL').textContent=n<4?`Schritt ${n+1} / 4`:'Fertig';
  $('#shFoot').style.display=n===4?'none':'';$('#back').style.visibility=n===0?'hidden':'visible';$('#shBody').scrollTop=0;
@@ -178,8 +178,8 @@ function validate(){const name=clean($('#fName').value,80),tel=clean($('#fTel').
  else if(!/^[+\d][\d\s/()-]{5,}$/.test(tel)){e='Bitte geben Sie eine gültige Telefonnummer an.';$('#fTel').parentNode.classList.add('bad')}
  else if(mail&&!/^\S+@\S+\.\S+$/.test(mail)){e='Bitte prüfen Sie Ihre E-Mail-Adresse.';$('#fMail').parentNode.classList.add('bad')}
  else if(!$('#fOk').checked)e='Bitte bestätigen Sie die Einwilligung.';
- $('#err').textContent=e;if(!e){B.c={name,tel,mail,msg:clean($('#fMsg').value,500),neu:$('#fNew').checked};go(3)}}
-function recap(sel){const r=$(sel);r.innerHTML='';const rows=[['Behandlung',B.t.n],['Termin',fmt(B.date)+', '+B.time+' Uhr'],['Dauer',B.t.d+' Minuten'],['Preis',eur(B.t.p,B.t.o)+(B.c.neu&&B.t.p&&!B.t.o?' · −15 %':'')],['Name',B.c.name],['Telefon',B.c.tel]];
+ $('#err').textContent=e;if(!e){B.c={name,tel,mail,msg:clean($('#fMsg').value,500)};go(3)}}
+function recap(sel){const r=$(sel);r.innerHTML='';const rows=[['Behandlung',B.t.n],['Termin',fmt(B.date)+', '+B.time+' Uhr'],['Preis',eur(B.t.p,B.t.o)],['Name',B.c.name],['Telefon',B.c.tel]];
  if(B.c.mail)rows.push(['E-Mail',B.c.mail]);if(B.c.msg)rows.push(['Hinweis',B.c.msg]);rows.forEach(([k,v])=>{const a=document.createElement('span');a.textContent=k;const b=document.createElement('span');b.textContent=v;r.append(a,b)})}
 let tsLoaded=false,tsToken='';
 function captcha(){const k=CONFIG.turnstileSiteKey;if(!k||tsLoaded)return;tsLoaded=true;window.nlTs=()=>window.turnstile.render('#captcha',{sitekey:k,theme:'light',language:'de',callback:t=>tsToken=t});
@@ -191,30 +191,30 @@ async function send(){const n=$('#next');
  if(!bot&&wait>0){$('#err3').textContent=`Bitte warten Sie noch ${Math.ceil(wait/1000)} Sekunden, bevor Sie eine weitere Anfrage senden.`;return}
  if(!bot&&CONFIG.turnstileSiteKey&&!tsToken){$('#err3').textContent='Bitte bestätigen Sie kurz, dass Sie kein Roboter sind.';return}
  $('#err3').textContent='';n.disabled=true;
- if(CONFIG.demo){recap('#recap2');$('#doneH').textContent='Demo-Anfrage.';$('#doneP').textContent='Dies ist eine Vorschau. In der fertigen Website wird Ihre Anfrage direkt an NuraLuxe gesendet.';$('#waBtn').style.display='none';$('#gcBtn').style.display='none';n.disabled=false;go(4);return}const[hh,mm]=B.time.split(':').map(Number);const st=new Date(B.date);st.setHours(hh,mm,0,0);const en=new Date(+st+B.t.d*6e4);
- const payload={service:B.t.n,category:B.t.cat,duration:B.t.d,price:B.t.p,date:iso(B.date),time:B.time,start:st.toISOString(),...B.c,source:'website',created:new Date().toISOString()};
+ if(CONFIG.demo){recap('#recap2');$('#doneH').textContent='Demo-Anfrage.';$('#doneP').textContent='Dies ist eine Vorschau. In der fertigen Website wird Ihre Anfrage direkt an Nura Luxe Beauty gesendet.';$('#waBtn').style.display='none';$('#gcBtn').style.display='none';n.disabled=false;go(4);return}const[hh,mm]=B.time.split(':').map(Number);const st=new Date(B.date);st.setHours(hh,mm,0,0);const en=new Date(+st+B.t.d*6e4);
+ const payload={service:B.t.n,category:B.t.cat,price:B.t.p,date:iso(B.date),time:B.time,start:st.toISOString(),...B.c,source:'website',created:new Date().toISOString()};
  payload.captcha=tsToken;let ok=false;
  if(!bot&&/^https:\/\//.test(CONFIG.webhook)){const ac=new AbortController();const to=setTimeout(()=>ac.abort(),8000);
   try{ok=(await fetch(CONFIG.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),credentials:'omit',referrerPolicy:'no-referrer',signal:ac.signal})).ok}catch(e){}clearTimeout(to)}
  if(!bot)lsSet('nl_last',Date.now());
- const msg=`Hallo NuraLuxe, ich möchte einen Termin anfragen:\n• ${B.t.n} (${B.t.d} Min)\n• ${fmt(B.date)}, ${B.time} Uhr\n• Name: ${B.c.name}\n• Tel.: ${B.c.tel}${B.c.neu?'\n• Neukundin (−15 % online)':''}${B.c.msg?'\n• Hinweis: '+B.c.msg:''}`;
+ const msg=`Hallo Nura Luxe Beauty, ich möchte einen Termin anfragen:\n• ${B.t.n}\n• ${fmt(B.date)}, ${B.time} Uhr\n• Name: ${B.c.name}\n• Tel.: ${B.c.tel}${B.c.msg?'\n• Hinweis: '+B.c.msg:''}`;
  $('#waBtn').href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
  const g=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
- $('#gcBtn').href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('NuraLuxe – '+B.t.n)}&dates=${g(st)}/${g(en)}&location=${encodeURIComponent('Beusselstraße 46, 10553 Berlin')}`;
+ $('#gcBtn').href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Nura Luxe Beauty – '+B.t.n)}&dates=${g(st)}/${g(en)}&location=${encodeURIComponent('Beusselstraße 46, 10553 Berlin')}`;
  $('#doneH').textContent=ok?'Anfrage erhalten.':'Fast geschafft.';
- $('#doneP').textContent=ok?'Wir bestätigen Ihren Termin zeitnah per Telefon oder WhatsApp.':'Senden Sie Ihre Anfrage jetzt per WhatsApp – so erreicht sie uns sofort. Telefon: '+CONFIG.phone;
+ $('#doneP').textContent=ok?'Wir bestätigen Ihren Termin zeitnah per Telefon oder WhatsApp.':'Senden Sie Ihre Anfrage jetzt per WhatsApp – so erreicht sie uns sofort. Telefon: '+CONFIG.phone+' · Instagram: @nura_luxe_beauty';
  $('#waBtn').firstChild.textContent=ok?'WhatsApp schreiben ':'Per WhatsApp senden ';
  recap('#recap2');n.disabled=false;go(4);try{navigator.vibrate&&navigator.vibrate([10,40,10])}catch(e){}}
 
 
 /* Google Maps: 2-Klick-Lösung (DSGVO) */
 $('#mapLoad').addEventListener('click',e=>{const m=$('#map');if(/claude/i.test(location.hostname)||location.protocol==='file:'||m.classList.contains('live'))return;
- e.preventDefault();const f=document.createElement('iframe');f.loading='lazy';f.referrerPolicy='no-referrer-when-downgrade';f.title='Google Maps – NuraLuxe';f.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
+ e.preventDefault();const f=document.createElement('iframe');f.loading='lazy';f.referrerPolicy='no-referrer-when-downgrade';f.title='Google Maps – Nura Luxe Beauty';f.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
  f.src='https://maps.google.com/maps?q=Beusselstra%C3%9Fe%2046%2C%2010553%20Berlin&z=16&output=embed';m.appendChild(f);f.onload=()=>m.classList.add('live');
  $('#mapLoad').lastChild.textContent='In Google Maps öffnen'});
 /* next free slot + opening */
-(function(){for(let i=0;i<14;i++){const d=new Date(today);d.setDate(d.getDate()+i);const s=slotsFor(d,45);if(s.length){const txt=`${i===0?'Heute':i===1?'Morgen':fmt(d)}, ${hhmm(s[0])} Uhr`;$('#nextSlot').textContent=txt;$('#heroSlot').textContent='Nächster Termin: '+txt;break}}
+(function(){for(let i=0;i<14;i++){const d=new Date(today);d.setDate(d.getDate()+i);const s=slotsFor(d,45);if(s.length){const txt=`${i===0?'Heute':i===1?'Morgen':fmt(d)}, ${hhmm(s[0])} Uhr`;$('#nextSlot').textContent=txt;$('#heroSlot').textContent='Wunschtermin ab '+txt;break}}
  const n=new Date(),h=CONFIG.hours[n.getDay()],m=n.getHours()+n.getMinutes()/60,open=h&&m>=h[0]&&m<h[1];
- const o=$('#openN');o.textContent=open?'Jetzt geöffnet · bis '+h[1]+':00':'Aktuell geschlossen';o.style.setProperty('--cc',open?'#1F9D55':'#FF4F2E');
+ const o=$('#openN');o.textContent=open?'Jetzt geöffnet · bis '+h[1]+':00':'Aktuell geschlossen';o.style.setProperty('--cc',open?'#3E8E5A':'#B8653A');
  $$('#hours [data-d]').forEach(s=>{const d=+s.dataset.d;if((d===1&&n.getDay()>=1&&n.getDay()<=6)||d===n.getDay())s.classList.add('now')})})();
 })();

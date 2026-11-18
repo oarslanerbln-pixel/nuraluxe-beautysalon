@@ -1,5 +1,6 @@
 @font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(../fonts/archivo.woff2) format("woff2")}
-:root{--w:#FFFFFF;--ink:#0A0A0A;--g:#5F5F5F;--l:#E4E4E1;--s:#F4F4F2;--c:#FF4F2E;--c2:#E8401F;
+/* Farben: Marke Nura Luxe Beauty (Kupfer, Gold, Creme, Navy); Typografie wie bisher (Archivo) */
+:root{--w:#FAF2E8;--ink:#1E2030;--g:#5E5A62;--l:#E6D6C2;--s:#F3E6D4;--c:#B8763F;--c2:#9A4524;--cu:#D69662;--gold:#EEBE76;--cd:#8A5225;
 --f:"Archivo",system-ui,-apple-system,Helvetica,Arial,sans-serif;--e:cubic-bezier(.19,1,.22,1);--io:cubic-bezier(.76,0,.24,1);--sb:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -27,7 +28,7 @@ section{position:relative}
 .btn-ghost{border:1px solid rgba(255,255,255,.7);color:var(--w)}.btn-ghost::before{background:var(--w)}.btn-ghost:hover{color:var(--ink)}
 .btn-line{border:1px solid var(--ink)}.btn-line::before{background:var(--ink)}.btn-line:hover{color:var(--w)}
 .btn-coral{background:var(--c);color:var(--w);animation:pulseC 4s ease-in-out infinite}.btn-coral::before{background:var(--w)}.btn-coral:hover{color:var(--ink)}
-@keyframes pulseC{0%,100%{background:#FF4F2E}50%{background:#FF6B47}}
+@keyframes pulseC{0%,100%{background:#D69662}50%{background:#E2A874}}
 
 /* PRELOADER */
 .pre{position:fixed;inset:0;z-index:300;background:var(--w);transition:transform 1s var(--io)}
@@ -367,3 +368,77 @@ html,body{overflow-x:clip}
 .lgmain p{margin:0 0 14px;color:#333;overflow-wrap:anywhere}.lgmain p a{text-decoration:underline}.lgmain b{font-weight:700;color:var(--ink)}.lgstand{color:var(--g);font-size:.88rem}
 .lgback{margin-top:48px}.lgp footer{padding:28px 0 calc(28px + var(--sb))}.lgp .legal{margin-top:0;border:0;padding:0}
 @media (max-width:520px){.lghdr .btn{padding:.9em 1.2em;font-size:.8rem}}
+
+/* ===== FARBEBENE: Nura Luxe Beauty (nur Farben, Typografie unverändert) ===== */
+::selection{background:var(--gold);color:var(--ink)}
+.ul{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--c)}
+.ul:hover{color:var(--cd)}
+/* Buttons */
+.btn-ink::before{background:var(--gold)}.btn-ink:hover,.btn-ink:focus-visible{color:var(--ink)}
+.btn-white::before{background:var(--gold)}.btn-white:hover{color:var(--ink)}
+.btn-ghost{border-color:rgba(250,242,232,.75)}
+.btn-coral{background:var(--cu);color:var(--ink)}.btn-coral::before{background:var(--ink)}.btn-coral:hover{color:var(--w)}
+.book .btn-coral::before{background:var(--w)}.book .btn-coral:hover{color:var(--ink)}
+/* Logo: NURA LUXE BEAUTY im bisherigen Schriftbild */
+.logo{align-items:baseline;gap:.42em}
+.logo b{font-weight:800}
+.logo span{font-size:.56em;font-weight:700;letter-spacing:.18em;color:var(--c)}
+.hdr.light .logo span{color:var(--w)}
+.pre-word span{color:var(--c);font-size:.75em;letter-spacing:.14em}
+.fword{align-items:baseline;gap:.18em}
+.fword span{font-size:.22em;font-weight:700;letter-spacing:.12em;color:var(--cu)}
+/* Hero */
+.hbig .ln:nth-child(3)>span{color:var(--c)}
+.hmedia{background:#2A2622}
+.live i{background:var(--cu)}
+/* Marquee, Cards */
+.mq-row .x{color:var(--cu)}
+.card{background:#FCF7F0}
+.card::before{background:var(--cu)}
+.card .ctop b{color:var(--cd)}
+/* Statement */
+.stmt{background:var(--ink)}
+.stmt .idx{color:#A9A3A6}
+.stmt p span{color:#4A4B5C}
+.stmt p span.on{color:var(--w)}
+.stmt p span.k.on{color:var(--gold)}
+/* Process */
+.steps li.on .sn{background:var(--cu);border-color:var(--cu);color:var(--ink)}
+.steps h3{color:#CBBBA8}
+.sline i{background:var(--cu)}
+/* Book */
+.book .idx,.book .fine{color:#A9A3A6}
+.bslot{border-color:rgba(250,242,232,.22)}
+.bslot span{color:#B9B1AC}
+.bslot b{color:var(--gold)}
+.perks{color:#DCD2C6}
+.perks li::before{color:var(--gold)}
+.perks a{color:inherit}
+/* Contact */
+.map{background:var(--s)}
+.map iframe{filter:grayscale(.7) sepia(.15) contrast(1.02)}
+.plab span{color:#C9C0B8}
+.pin{background:var(--cu);box-shadow:0 0 0 1px var(--cu)}
+.pin::after{border-color:var(--cu)}
+.cmail{margin-top:20px;font-size:.92rem;color:var(--g)}
+/* Footer */
+footer{color:#BDB5B0}
+footer a:hover{color:var(--gold)}
+.legal{border-top-color:#34364A}
+/* Tab bar */
+.tabbar a,.tabbar button{color:#7D7780}
+.tabbar .on::after{background:var(--cu)}
+.tabbar .bk .sq{background:var(--cu)}
+.tabbar .bk svg{stroke:var(--ink)}
+/* Booking sheet */
+.sbg{background:rgba(30,32,48,.55)}
+.prog i{background:var(--cu)}
+.treat .pr{color:var(--g)}
+.treat.on .rad{background:var(--cu);border-color:var(--cu)}
+.treat.on .rad::after{border-color:var(--ink)}
+.slots button.on{background:var(--cu);border-color:var(--cu);color:var(--ink)}
+.field.bad input{border-color:var(--c2)}
+.tog input:checked{background:var(--cu)}
+/* Legal pages */
+.lgmain .kick{color:var(--cd)}
+.lgmain p{color:#3A3A48}

@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://nuraluxe-modern.vercel.app/sitemap.xml
