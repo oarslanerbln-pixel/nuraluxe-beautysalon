@@ -13,12 +13,12 @@ const CONFIG={
   closed:[]              // ["2026-12-24", …]
 };
 const SERVICES=[
- {cat:"Aktion",img:"img/svc-aktion.webp",tag:"Bis 31.12.",items:[["Aquafacial + Microneedling",75,99,129],["Aquafacial + Mikrodermabrasion",75,99,129]]},
- {cat:"Gesicht",img:"img/svc-gesicht.webp",tag:"Pflege",items:[["Hydrafacial",60,null],["Deep Cleansing Facial",60,null],["Anti-Aging Facial",75,null]]},
- {cat:"Lashes & Brows",img:"img/svc-lashes.webp",tag:"Natürlich",items:[["Lash Lifting",45,null],["Brow Lamination",45,null],["Lash & Brow Kombi",75,null]]},
- {cat:"Nails",img:"img/svc-nails.webp",tag:"Gepflegt",items:[["Maniküre",45,null],["Gel-Maniküre",60,null],["Pediküre",60,null]]},
- {cat:"Haarentfernung",img:"img/svc-haar.webp",tag:"Glatt",items:[["Laser – Achseln",20,null],["Laser – Beine komplett",60,null],["Waxing – Gesicht",20,null]]},
- {cat:"Beratung",img:"img/svc-beratung.webp",tag:"Persönlich",items:[["Hautanalyse & Beratung",20,null]]}
+ {cat:"Aktion",img:"img/svc-aktion.webp?v=2",tag:"Bis 31.12.",items:[["Aquafacial + Microneedling",75,99,129],["Aquafacial + Mikrodermabrasion",75,99,129]]},
+ {cat:"Gesicht",img:"img/svc-gesicht.webp?v=2",tag:"Pflege",items:[["Hydrafacial",60,null],["Deep Cleansing Facial",60,null],["Anti-Aging Facial",75,null]]},
+ {cat:"Lashes & Brows",img:"img/svc-lashes.webp?v=2",tag:"Natürlich",items:[["Lash Lifting",45,null],["Brow Lamination",45,null],["Lash & Brow Kombi",75,null]]},
+ {cat:"Nails",img:"img/svc-nails.webp?v=2",tag:"Gepflegt",items:[["Maniküre",45,null],["Gel-Maniküre",60,null],["Pediküre",60,null]]},
+ {cat:"Haarentfernung",img:"img/svc-haar.webp?v=2",tag:"Glatt",items:[["Laser – Achseln",20,null],["Laser – Beine komplett",60,null],["Waxing – Gesicht",20,null]]},
+ {cat:"Beratung",img:"img/svc-beratung.webp?v=2",tag:"Persönlich",items:[["Hautanalyse & Beratung",20,null]]}
 ];
 /* ========================= */
 (()=>{
