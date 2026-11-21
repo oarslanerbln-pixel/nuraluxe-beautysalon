@@ -1,6 +1,6 @@
 /* ===== KONFIGURATION ===== */
 const CONFIG={
-  phone:"+49 177 6069291", whatsapp:"491776069291", email:"info@nuraluxe.de",
+  phone:"+49 177 6069291", whatsapp:"491776069291", email:"info@nuraluxebeauty.de",
   instagram:"https://www.instagram.com/nura_luxe_beauty",
   webhook:"",            // Make / n8n / Supabase-URL (nur https) → Anfragen landen dort
   turnstileSiteKey:"",   // optional: Cloudflare Turnstile (Spam-Schutz, DSGVO-freundlich)

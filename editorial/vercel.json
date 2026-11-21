@@ -47,7 +47,7 @@
   "redirects": [
     {
       "source": "/termin",
-      "destination": "https://nuraluxe-modern.vercel.app/#buchen",
+      "destination": "https://nuraluxebeauty.de/termin",
       "permanent": false
     }
   ]

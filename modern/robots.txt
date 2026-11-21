@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nuraluxe-modern.vercel.app/sitemap.xml
+Sitemap: https://nuraluxebeauty.de/sitemap.xml
