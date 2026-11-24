@@ -49,6 +49,11 @@
       "source": "/termin",
       "destination": "https://nuraluxebeauty.de/termin",
       "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://nuraluxebeauty.de/",
+      "permanent": true
     }
   ]
 }
