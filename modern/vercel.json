@@ -60,6 +60,28 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.nuraluxebeauty.de"
+        }
+      ],
+      "destination": "https://nuraluxebeauty.de/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "nuraluxe-modern.vercel.app"
+        }
+      ],
+      "destination": "https://nuraluxebeauty.de/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
