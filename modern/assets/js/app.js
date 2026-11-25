@@ -1,3 +1,5 @@
+/* ===== KANONISCHE DOMAIN: www./vercel.app → nuraluxebeauty.de ===== */
+(function(){var h=location.hostname;if(h==='www.nuraluxebeauty.de'||/\.vercel\.app$/.test(h)){location.replace('https://nuraluxebeauty.de'+location.pathname+location.search+location.hash)}})();
 /* ===== KONFIGURATION ===== */
 const CONFIG={
   phone:"+49 177 6069291", whatsapp:"491776069291", email:"info@nuraluxebeauty.de",

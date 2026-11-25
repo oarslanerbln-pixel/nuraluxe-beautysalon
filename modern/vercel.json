@@ -71,6 +71,17 @@
       "permanent": true
     },
     {
+      "source": "/((?!assets/|img/|media/|favicon|apple-touch-icon|og\\.jpg).+)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.nuraluxebeauty.de"
+        }
+      ],
+      "destination": "https://nuraluxebeauty.de/$1",
+      "permanent": true
+    },
+    {
       "source": "/",
       "has": [
         {
@@ -82,25 +93,14 @@
       "permanent": true
     },
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.nuraluxebeauty.de"
-        }
-      ],
-      "destination": "https://nuraluxebeauty.de/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
+      "source": "/((?!assets/|img/|media/|favicon|apple-touch-icon|og\\.jpg).+)",
       "has": [
         {
           "type": "host",
           "value": "nuraluxe-modern.vercel.app"
         }
       ],
-      "destination": "https://nuraluxebeauty.de/:path*",
+      "destination": "https://nuraluxebeauty.de/$1",
       "permanent": true
     },
     {
